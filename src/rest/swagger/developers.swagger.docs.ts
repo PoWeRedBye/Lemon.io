@@ -10,12 +10,25 @@ export const getDevelopers: IApiOperationArgsBase = {
   summary:
     'Get full list of developers (used by developers management dashboard and contracts management dashboard)',
   path: '/',
-  parameters: {},
+  parameters: {
+    query: {
+      withRevenue: {
+        required: false,
+        name: 'withRevenue',
+        description: 'show records with revenue or not.',
+      },
+      status: {
+        required: false,
+        name: 'status',
+        description: "Contract status(default = 'completed')",
+      },
+    },
+  },
   responses: {
     200: {
       description: 'Success',
       type: 'array',
-      model: 'DeveloperDto',
+      model: 'DeveloperDto' || 'DeveloperWitRevenueDto',
     },
   },
 };
@@ -25,11 +38,23 @@ export const getDeveloperById: IApiOperationArgsBase = {
   path: '/{id}',
   parameters: {
     path: { id: { required: true, name: 'id', description: 'Developer id' } },
+    query: {
+      withRevenue: {
+        required: false,
+        name: 'withRevenue',
+        description: 'show records with revenue or not.',
+      },
+      status: {
+        required: false,
+        name: 'status',
+        description: "Contract status(default = 'completed')",
+      },
+    },
   },
   responses: {
     200: {
       description: 'Success',
-      model: 'DeveloperDto',
+      model: 'DeveloperDto' || 'DeveloperWitRevenueDto',
     },
   },
 };

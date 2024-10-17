@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { DevelopersRepository } from '../repositories/developers.repository';
-import { IDeveloper } from '../types';
+import { IContractStatus, IDeveloper } from '../types';
 
 @injectable()
 export class DevelopersService {
@@ -9,11 +9,18 @@ export class DevelopersService {
     private developersRepository: DevelopersRepository,
   ) {}
 
-  async getDevelopers(): Promise<IDeveloper[]> {
-    return this.developersRepository.getDevelopers();
+  async getDevelopers(
+    withRevenue?: boolean,
+    status = IContractStatus.COMPLETED,
+  ): Promise<IDeveloper[]> {
+    return this.developersRepository.getDevelopers(status, withRevenue);
   }
 
-  async getDeveloperById(id: string) {
-    return this.developersRepository.getDeveloperById(id);
+  async getDeveloperById(
+    id: string,
+    withRevenue?: boolean,
+    status = IContractStatus.COMPLETED,
+  ) {
+    return this.developersRepository.getDeveloperById(id, status, withRevenue);
   }
 }
