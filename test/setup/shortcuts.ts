@@ -1,2 +1,1 @@
-export const request = globalThis.request
-
+export const request = globalThis.request;
