@@ -4,6 +4,7 @@ import {
   BaseHttpController,
   httpGet,
   requestParam,
+  queryParam,
 } from 'inversify-express-utils';
 import { ApiOperationGet, ApiPath } from 'swagger-express-ts';
 import {
@@ -13,7 +14,11 @@ import {
 } from '../swagger/developers.swagger.docs';
 import { inject } from 'inversify';
 import { DevelopersService } from '../../domain/developers/services/developers.service';
-import { DeveloperDto } from '../dto/developers.responses.dto';
+import {
+  DeveloperDto,
+  DeveloperWitRevenueDto,
+} from '../dto/developers.responses.dto';
+import { IContractStatus } from '../../domain/developers/types';
 
 @controller('/api/developers')
 @ApiPath(path)
@@ -29,15 +34,20 @@ export class DevelopersController
 
   @httpGet('/')
   @ApiOperationGet(getDevelopers)
-  public async getDevelopers(): Promise<DeveloperDto[]> {
-    return this.developersService.getDevelopers();
+  public async getDevelopers(
+    @queryParam('withRevenue') withRevenue: boolean,
+    @queryParam('status') status: IContractStatus,
+  ): Promise<DeveloperDto[] | DeveloperWitRevenueDto[]> {
+    return this.developersService.getDevelopers(withRevenue, status);
   }
 
   @httpGet('/:id')
   @ApiOperationGet(getDeveloperById)
   public async getDeveloperById(
     @requestParam('id') id: string,
-  ): Promise<DeveloperDto> {
-    return this.developersService.getDeveloperById(id);
+    @queryParam('withRevenue') withRevenue: boolean,
+    @queryParam('status') status: IContractStatus,
+  ): Promise<DeveloperDto | DeveloperWitRevenueDto> {
+    return this.developersService.getDeveloperById(id, withRevenue, status);
   }
 }

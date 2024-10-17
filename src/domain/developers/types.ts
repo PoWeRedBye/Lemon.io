@@ -6,3 +6,13 @@ export interface IDeveloper {
 
   email: string;
 }
+
+export interface IDeveloperWithRevenue extends IDeveloper {
+  totalRevenue: number;
+}
+
+export enum IContractStatus {
+  PENDING = 'pending',
+  COMPLETED = 'completed',
+  ONGOING = 'ongoing',
+}
